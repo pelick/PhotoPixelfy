@@ -1,0 +1,176 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Pixelfy Photo Demo</title>
+  <script type="text/javascript" src="js/raphael-min.js"></script>
+  <script src="js/jquery-1.7.2.js"></script>
+  <script type="text/javascript" src="js/seurat.js"></script>
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <script type="text/javascript">
+    var map;
+    $(document).ready(function(){
+      $('.seuratjs-animation').click(function(){
+        var width = $(this).width(); var height = $(this).height();
+        var raphaelContainer = $('<div id="'+$(this).attr('id')+'"></div>').width(width).height(height);    
+        $(this).replaceWith(raphaelContainer);
+        var paper = new Raphael(document.getElementById($(this).attr('id')),width,height+5);
+        /* SeuratJS code */
+        paper.seurat({ imageSource: 'imgs/test.jpg', animator: function(elm, x,y,step){
+          var anim = Raphael.animation({r: 7}, 350).delay(35*(x+y));
+          elm.animate(anim);
+        }});
+      });
+    });
+
+
+    $(document).ready(function(){
+      $('.seuratjs-attributes').click(function(){
+        var width = $(this).width(); var height = $(this).height();
+        var raphaelContainer = $('<div id="'+$(this).attr('id')+'"></div>').width(width).height(height);    
+        $(this).replaceWith(raphaelContainer);
+        var paper = new Raphael(document.getElementById($(this).attr('id')),width,height+5);
+        /* SeuratJS code */
+        paper.seurat({ 
+          imageSource: 'imgs/test.jpg',
+          attributes: {r: 3, stroke: 1}
+        });
+      });
+    });
+
+
+    $(document).ready(function(){
+      $('.seuratjs-circles').click(function(){
+        var width = $(this).width(); var height = $(this).height();
+        var raphaelContainer = $('<div id="'+$(this).attr('id')+'"></div>').width(width).height(height);    
+        $(this).replaceWith(raphaelContainer);
+        var paper = new Raphael(document.getElementById($(this).attr('id')),width,height+5);
+        /* SeuratJS code */
+        paper.seurat({ imageSource: $(this).attr('src')});
+      });
+    });
+    
+
+    $(document).ready(function(){
+      $('.seuratjs-generation').click(function(){
+        var width = $(this).width(); var height = $(this).height();
+        var raphaelContainer = $('<div id="'+$(this).attr('id')+'"></div>').width(width).height(height);    
+        $(this).replaceWith(raphaelContainer);
+        var paper = new Raphael(document.getElementById($(this).attr('id')),width,height+5);
+        /* SeuratJS code */
+        paper.seurat({ imageSource: 'imgs/test.jpg', generator: function(ppr,x,y,color,step,attributes){
+          return ppr.circle(Math.random()*x, Math.random()*y, Math.random()*7).attr({fill: color}).attr(attributes);
+        }, animator: function(elm, x,y,step){
+          elm.animate(Raphael.animation({r: 10,cx: x+step/2,cy: y+step/2}, 2e3));
+        }    
+        });
+      });
+    });
+
+
+    $(document).ready(function(){
+      $('.seuratjs-rectangles').click(function(){
+        var width = $(this).width(); var height = $(this).height();
+        var raphaelContainer = $('<div id="'+$(this).attr('id')+'"></div>').width(width).height(height);    
+        $(this).replaceWith(raphaelContainer);
+        var paper = new Raphael(document.getElementById($(this).attr('id')),width,height+5);
+        /* SeuratJS code */
+        paper.seurat({ imageSource: 'imgs/test.jpg', shape: "rect"});
+      });
+    });
+  </script>
+</head>
+<body>
+  <div class="page-header">
+    <h1>Photo Pixelfy</h1>
+  </div>
+  
+  <div class="row">
+    <div class="span9">
+      <pre><img src="imgs/test.jpg" id="ex1" class='seuratjs-animation' /></pre>
+    </div>
+    <div class="span9">
+      <p><span class="label notice">Note</span>The <b>animator</b> is the work-horse function of SeuratJS.  The <b>elm</b> is the Rapha&euml;l element generated and filled with the color from (<b>x</b>,<b>y</b>).  <b>step</b> is the grid spacing used to collect the color samples.  You can see more great animation examples and code on the <a href='http://seuratjs.com' target='_blank'>SeuratJS Website</a>.</p>
+      <p><span class="label important">CODE</span></p>
+      <pre>
+      paper.seurat({ 
+        imageSource: 'imgs/circus-sideshow.png',
+        animator: function(elm, x,y,step){
+          var anim = Raphael.animation({r: 7}, 350).delay(35*(x+y));
+          elm.animate(anim);
+        }});
+</pre>
+    </div>
+  </div>
+
+  <div class="page-header"></div>
+
+  <div class="row">
+    <div class="span9">
+      <pre><img src="imgs/test.jpg" id="ex2" class='seuratjs-attributes' /></pre>
+    </div>
+    <div class="span9">
+      <p><span class="label notice">Note</span> <strong>paper</strong><b>attributes</b> describe what your Rapha&euml;l elements look like when they are generated.  In this example the radius of our circles is set to 3 and a 1 pixel stroke is set.  Depending on the type of element you are using can determine which attibutes are valid to set <a href='http://www.w3.org/TR/SVG/attindex.html' target='_blank'>here</a>.</p>
+      <p><span class="label important">CODE</span></p>
+      <pre>
+paper.seurat({ imageSource: 'imgs/circus.png',
+                attributes: {r: 3, stroke: 1}});</pre>
+    </div>
+  </div>
+
+  <div class="page-header"></div>
+
+  <div class="row">
+    <div class="span9">
+      <pre><img src="imgs/test.jpg" id="ex3" class='seuratjs-circles' /></pre>
+    </div>
+    <div class="span9">
+      <p><span class="label notice">Note</span> <strong>paper</strong>Let's round this image out: </p>
+      <p><span class="label important">CODE</span></p>
+      <pre>paper.seurat({imageSource:'imgs/gray-weather.png'});</pre>
+    </div>
+  </div>
+
+  <div class="page-header"></div>
+
+  <div class="row">
+    <div class="span9">
+      <pre><img src="imgs/test.jpg" id="ex4" class='seuratjs-generation' /></pre>
+    </div>
+    <div class="span9">
+      <p><span class="label notice">Note</span> <strong>paper</strong>The <b>generator</b> function allows for the ultimate level of flexibility in SeuratJS and provides the ability to create jaw-dropping animations.  Using the generator you can alter everything from the sample coordinates (<b>x</b>,<b>y</b>) to the <b>color</b>.  
+    As a result you are responsible for generating a Rapha&euml;l element (use <b>ppr</b> which is your current Rapha&euml;l canvas) and returning it.  You can see more great examples of using generators at <a href='http://seuratjs.com' target='_blank'>SeuratJS Website</a></p>
+      <p><span class="label important">CODE</span></p>
+      <pre>
+      paper.seurat({ imageSource: 'imgs/eiffle-tower.png',
+        generator: function(ppr,x,y,color,step,attributes){
+          return ppr.circle(
+            Math.random()*x, 
+            Math.random()*y, 
+            Math.random()*7
+          ).attr({fill: color}).attr(attributes);
+        },
+        animator: function(elm, x,y,step){
+          elm.animate(
+            Raphael.animation({r: 10, 
+            cx: x+step/2,cy: y+step/2}, 2e3)
+          );
+        }
+      });
+      </pre>
+    </div>
+  </div>
+
+  <div class="page-header"></div>
+
+  <div class="row">
+    <div class="span9">
+      <pre><img src="imgs/test.jpg" id="ex5" class='seuratjs-rectangles' /></pre>
+    </div>
+    <div class="span9">
+      <p><span class="label notice">Note</span> <strong>paper</strong>Seurat can do sharp edges too providing a great looking pixelization effect.  Just set the <strong>shape</strong> object to <strong>'rect'</strong> to override the default <strong>'circ'</strong> option.</p>
+      <p><span class="label important">CODE</span></p>
+      <pre>paper.seurat({ imageSource: 'imgs/fort-samson.png', shape: 'rect'});</pre>
+    </div>
+  </div>
+</body>
+</html>
